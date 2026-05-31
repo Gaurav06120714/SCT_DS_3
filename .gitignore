@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+__MACOSX/
+*.Rhistory
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Archives
+*.zip
+
+# Nested raw data folder (CSV at root is enough)
+bank+marketing/
