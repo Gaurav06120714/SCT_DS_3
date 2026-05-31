@@ -1,4 +1,4 @@
-# 🏦 Bank Term Deposit Prediction — Decision Tree Classifier
+# Bank Term Deposit Prediction — Decision Tree Classifier
 
 **SkillCraft Technology | Data Science Internship | Task 03**
 
@@ -9,24 +9,24 @@
 
 ---
 
-## 📌 What I Built
+## What I Built
 
 A **Decision Tree Classifier** trained on 41,000+ real bank marketing call records to predict whether a customer will subscribe to a term deposit — based on who they are, how they were contacted, and what the economy looked like at the time.
 
 ---
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```
 SCT_DS_3/
 │
-├── 📄 SCT_DS_3.py                  ← Python script (run this)
-├── 📓 SCT_DS_3.ipynb               ← Same thing, Jupyter notebook
+├── SCT_DS_3.py                  ← Python script (run this)
+├── SCT_DS_3.ipynb               ← Same thing, Jupyter notebook
 │
-├── 📊 bank-additional-full.csv     ← Raw dataset (41,188 rows)
-├── 📊 bank_cleaned.csv             ← After label encoding (auto-generated)
+├── bank-additional-full.csv     ← Raw dataset (41,188 rows)
+├── bank_cleaned.csv             ← After label encoding (auto-generated)
 │
-├── 🖼️ images/
+├── images/
 │   ├── class_distribution.png
 │   ├── age_distribution.png
 │   ├── correlation_heatmap.png
@@ -37,12 +37,12 @@ SCT_DS_3/
 │   ├── feature_importances_horizontal.png
 │   └── decision_tree.png
 │
-└── 📝 README.md
+└── README.md
 ```
 
 ---
 
-## 📊 Dataset at a Glance
+## Dataset at a Glance
 
 | | |
 |---|---|
@@ -54,7 +54,7 @@ SCT_DS_3/
 
 ---
 
-## 🔍 My Approach
+## My Approach
 
 ### 1 · Exploratory Data Analysis
 Before touching the model, I explored the data to understand what I was working with:
@@ -80,7 +80,7 @@ Instead of just picking `max_depth=5` arbitrarily, I trained the model at every 
 
 ---
 
-## 📈 Results
+## Results
 
 | Metric | Score |
 |---|---|
@@ -89,11 +89,11 @@ Instead of just picking `max_depth=5` arbitrarily, I trained the model at every 
 | AUC Score | **0.9335** |
 | F1 (Yes class) | 0.59 |
 
-> ⚠️ The 91% accuracy sounds great but is misleading — because 89% of the data is "No", a model that always predicts No would also get 89%. The **F1-score for "Yes"** (0.59) and **AUC (0.93)** are the real indicators of model quality here.
+> The 91% accuracy sounds great but is misleading — because 89% of the data is "No", a model that always predicts No would also get 89%. The **F1-score for "Yes"** (0.59) and **AUC (0.93)** are the real indicators of model quality here.
 
 ---
 
-## 💡 Key Findings
+## Key Findings
 
 **#1 — Call duration dominates everything**  
 `duration` alone accounts for ~50% of the model's decision weight. Longer calls = higher chance of yes. But there's a catch: you only know the duration *after* the call ends, so this feature isn't useful for pre-call predictions.
@@ -106,7 +106,7 @@ Age, job, and marital status have surprisingly low importance. Timing (economic 
 
 ---
 
-## 🖼️ Visualizations
+## Visualizations
 
 | Chart | What it shows |
 |---|---|
@@ -122,7 +122,7 @@ Age, job, and marital status have surprisingly low importance. Timing (economic 
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ```bash
 # Clone and enter the folder
@@ -141,13 +141,13 @@ jupyter notebook SCT_DS_3.ipynb
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 `Python` · `pandas` · `NumPy` · `scikit-learn` · `Matplotlib` · `Seaborn`
 
 ---
 
-## 👤 Author
+## Author
 
 **Gaurav** — Data Science Intern @ SkillCraft Technology  
 GitHub: [@Gaurav06120714](https://github.com/Gaurav06120714)
