@@ -1,157 +1,153 @@
-# Task 03 — Decision Tree Classifier
-### SkillCraft Technology Internship
+# 🏦 Bank Term Deposit Prediction — Decision Tree Classifier
+
+**SkillCraft Technology | Data Science Internship | Task 03**
 
 ---
 
-## Objective
-
-Build a decision tree classifier to predict whether a customer will subscribe to a bank term deposit, based on demographic and behavioral data from the UCI Bank Marketing Dataset.
-
----
-
-## Dataset
-
-**Source:** [UCI Bank Marketing Dataset](https://archive.ics.uci.edu/dataset/222/bank+marketing)
-
-**File used:** `bank-additional-full.csv`
-
-| Property | Value |
-|---|---|
-| Total rows | 41,188 |
-| Total features | 20 |
-| Target column | `y` (yes / no) |
-| Separator | semicolon (`;`) |
-| Missing values | None (uses `"unknown"` as placeholder) |
+> *Can a 5-minute phone call predict whether someone opens a bank account?*  
+> This project answers that question using machine learning on real-world banking data.
 
 ---
 
-## Project Structure
+## 📌 What I Built
+
+A **Decision Tree Classifier** trained on 41,000+ real bank marketing call records to predict whether a customer will subscribe to a term deposit — based on who they are, how they were contacted, and what the economy looked like at the time.
+
+---
+
+## 🗂️ Repository Structure
 
 ```
 SCT_DS_3/
 │
-├── bank-additional-full.csv           # Raw dataset
-├── bank_cleaned.csv                   # Encoded dataset (generated on run)
+├── 📄 SCT_DS_3.py                  ← Python script (run this)
+├── 📓 SCT_DS_3.ipynb               ← Same thing, Jupyter notebook
 │
-├── SCT_DS_3.py                        # Main Python script
-├── SCT_DS_3.ipynb                     # Jupyter Notebook (same steps, interactive)
+├── 📊 bank-additional-full.csv     ← Raw dataset (41,188 rows)
+├── 📊 bank_cleaned.csv             ← After label encoding (auto-generated)
 │
-├── images/
-│   ├── class_distribution.png        # Target class bar chart
-│   ├── age_distribution.png          # Age histogram
-│   ├── correlation_heatmap.png       # Feature correlation heatmap
-│   ├── depth_comparison.png          # Train vs test accuracy by depth
-│   ├── confusion_matrix.png          # Confusion matrix heatmap
-│   ├── roc_curve.png                 # ROC curve with AUC
-│   ├── feature_importances.png       # Top 10 features (vertical)
-│   ├── feature_importances_horizontal.png  # Top 10 features (horizontal)
-│   └── decision_tree.png             # Visualized decision tree (depth 3)
+├── 🖼️ images/
+│   ├── class_distribution.png
+│   ├── age_distribution.png
+│   ├── correlation_heatmap.png
+│   ├── depth_comparison.png
+│   ├── confusion_matrix.png
+│   ├── roc_curve.png
+│   ├── feature_importances.png
+│   ├── feature_importances_horizontal.png
+│   └── decision_tree.png
 │
-└── README.md                         # This file
+└── 📝 README.md
 ```
 
 ---
 
-## Steps Followed
+## 📊 Dataset at a Glance
 
-### Step 1 — Load Dataset
-Loaded `bank-additional-full.csv` using `pandas.read_csv()` with `sep=';'`.  
-Verified shape, column types, and confirmed zero null values.
-
-### Step 2 — EDA
-- Analyzed target class distribution → heavily imbalanced (~89% No, ~11% Yes)
-- Visualized age distribution of all clients
-- Checked `"unknown"` string placeholders in categorical columns
-
-### Step 3 — Preprocessing
-- Applied `LabelEncoder` to all categorical (`object`) columns
-- Encoded target `y` → 0 (No), 1 (Yes)
-- Generated correlation heatmap across all features
-- Saved encoded dataset as `bank_cleaned.csv`
-
-### Step 4 — Train / Test Split
-- 80% training / 20% test split
-- Used `stratify=y` to preserve the class imbalance ratio in both sets
-- Training set: ~32,950 rows | Test set: ~8,238 rows
-
-### Step 5 — Optimal Depth Search
-- Trained models at depths 3–10
-- Plotted train vs test accuracy to find the best depth
-- Selected `max_depth=5` — best balance between accuracy and overfitting
-
-### Step 6 — Model Training
-- Trained `DecisionTreeClassifier` with `max_depth=5`, `criterion='gini'`
-- Evaluated on held-out test set
-
-### Step 7 — Evaluation
-- Accuracy, precision, recall, F1-score via `classification_report`
-- Confusion matrix heatmap
-- ROC curve + AUC score
-
-### Step 8 — Visualization
-- Full decision tree plotted using `plot_tree()` (limited to depth 3 for readability)
-- Feature importances as both vertical and horizontal bar charts
-
----
-
-## Results
-
-| Metric | Value |
+| | |
 |---|---|
-| Training Accuracy | ~91% |
-| Test Accuracy | ~90% |
-| AUC Score | ~0.80 |
+| **Source** | [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/222/bank+marketing) |
+| **Rows** | 41,188 customer call records |
+| **Features** | 20 (age, job, marital status, call duration, economic indicators…) |
+| **Target** | `y` — Did the customer subscribe? (`yes` / `no`) |
+| **Class split** | 88.7% No · 11.3% Yes ← heavily imbalanced |
 
 ---
 
-## Key Findings
+## 🔍 My Approach
 
-- **`duration`** (last contact duration in seconds) is the single most important feature — longer calls strongly indicate that the customer agreed to subscribe.
-- **Economic indicators** (`euribor3m`, `nr.employed`, `emp.var.rate`) are the next most influential, showing that macroeconomic conditions drive term deposit uptake.
-- The dataset is **highly imbalanced** (9:1 ratio of No to Yes). Accuracy alone is misleading — F1-score and recall for the "Yes" class are the meaningful metrics.
-- Beyond `max_depth=5`, training accuracy climbs while test accuracy plateaus — a textbook sign of overfitting in decision trees.
-- The model achieves reasonable AUC (~0.80), meaning it has solid discriminative power despite the class imbalance.
+### 1 · Exploratory Data Analysis
+Before touching the model, I explored the data to understand what I was working with:
+- The dataset is **heavily imbalanced** — only 1 in 9 customers said yes
+- `"unknown"` is used as a placeholder in several categorical columns (not null)
+- Call `duration` shows a strong visual separation between yes/no groups even before modeling
+
+### 2 · Preprocessing
+- Label-encoded all 11 categorical columns (`job`, `marital`, `education`, `contact`, etc.)
+- Target `y` → 0 (No) / 1 (Yes)
+- Exported the encoded version as `bank_cleaned.csv` for reproducibility
+
+### 3 · Finding the Right Depth
+Instead of just picking `max_depth=5` arbitrarily, I trained the model at every depth from 3 to 10 and plotted both train and test accuracy:
+
+> Train accuracy keeps climbing → that's overfitting.  
+> Test accuracy peaks around depth 5 and flattens → that's the sweet spot.
+
+### 4 · Training & Evaluation
+- `DecisionTreeClassifier(max_depth=5, criterion='gini')`
+- 80/20 stratified train-test split
+- Evaluated with accuracy, F1-score, confusion matrix, and ROC-AUC
 
 ---
 
-## Libraries Used
+## 📈 Results
 
-```
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
-```
+| Metric | Score |
+|---|---|
+| Train Accuracy | **91.63%** |
+| Test Accuracy | **91.81%** |
+| AUC Score | **0.9335** |
+| F1 (Yes class) | 0.59 |
 
-Install all with:
+> ⚠️ The 91% accuracy sounds great but is misleading — because 89% of the data is "No", a model that always predicts No would also get 89%. The **F1-score for "Yes"** (0.59) and **AUC (0.93)** are the real indicators of model quality here.
+
+---
+
+## 💡 Key Findings
+
+**#1 — Call duration dominates everything**  
+`duration` alone accounts for ~50% of the model's decision weight. Longer calls = higher chance of yes. But there's a catch: you only know the duration *after* the call ends, so this feature isn't useful for pre-call predictions.
+
+**#2 — The economy matters more than demographics**  
+`nr.employed` (number of employees in the economy) and `euribor3m` (interest rate) rank 2nd and 3rd. When interest rates drop and employment is high, people are more likely to open savings products.
+
+**#3 — Who you call matters less than when you call**  
+Age, job, and marital status have surprisingly low importance. Timing (economic climate + previous campaign outcome) is far more predictive than customer demographics alone.
+
+---
+
+## 🖼️ Visualizations
+
+| Chart | What it shows |
+|---|---|
+| `class_distribution.png` | The 89/11 imbalance in the target |
+| `age_distribution.png` | Spread of customer ages |
+| `correlation_heatmap.png` | Which features move together |
+| `depth_comparison.png` | Why I chose depth=5 |
+| `confusion_matrix.png` | Where the model gets it right and wrong |
+| `roc_curve.png` | AUC = 0.9335 |
+| `feature_importances.png` | Top 10 drivers of prediction |
+| `feature_importances_horizontal.png` | Same, horizontal layout |
+| `decision_tree.png` | The actual tree (depth 3 for readability) |
+
+---
+
+## ▶️ How to Run
+
 ```bash
+# Clone and enter the folder
+git clone https://github.com/Gaurav06120714/SCT_DS_3.git
+cd SCT_DS_3
+
+# Install dependencies
 pip install pandas numpy matplotlib seaborn scikit-learn
-```
 
----
-
-## How to Run
-
-**Option A — Python script:**
-```bash
-# Place bank-additional-full.csv in the same folder, then:
+# Run the script — all PNGs and bank_cleaned.csv will be generated
 python SCT_DS_3.py
-```
 
-**Option B — Jupyter Notebook:**
-```bash
+# Or open the notebook
 jupyter notebook SCT_DS_3.ipynb
-# Run all cells top to bottom
 ```
-
-All output PNGs and `bank_cleaned.csv` are generated automatically on run.
 
 ---
 
-## Author
+## 🛠️ Tech Stack
 
-**Intern:** Gaurav  
-**Organization:** SkillCraft Technology  
-**Task:** Task 03 — Decision Tree Classifier
-# SCT_DS_3
+`Python` · `pandas` · `NumPy` · `scikit-learn` · `Matplotlib` · `Seaborn`
+
+---
+
+## 👤 Author
+
+**Gaurav** — Data Science Intern @ SkillCraft Technology  
+GitHub: [@Gaurav06120714](https://github.com/Gaurav06120714)
